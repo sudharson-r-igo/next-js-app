@@ -6,8 +6,8 @@ on:
       environment:
         description: "Select deployment environment"
         required: true
-        default: "igopt"
         type: choice
+        default: "igopt"
         options:
           - igoqa
           - igopt
@@ -15,38 +15,36 @@ on:
           - itklive
  
 jobs:
- 
   deploy-phase1:
     runs-on: [self-hosted, windows]
  
     steps:
  
       ############################################################
-      # STEP 1: CHECKOUT REPOSITORY
+      # STEP 1 — CHECKOUT REPOSITORY
       ############################################################
-      - name: Checkout Phase1 Repo
+      - name: Checkout Repository
         uses: actions/checkout@v4
  
       ############################################################
-      # STEP 2: BACKEND BUILD USING EXISTING SCRIPT
+      # STEP 2 — BACKEND BUILD (YOUR LOCAL SCRIPT)
       ############################################################
-      - name: Run Backend Publish Script
+      - name: Run Publish Script
         shell: cmd
         run: |
           publish-script.bat
  
       ############################################################
-      # STEP 3: PHASE1 DOCKER BUILD + DEPLOY
-      # This executes your existing Windows.Build.docker.bat file
+      # STEP 3 — DOCKER DEPLOY (YOUR .BAT FILE)
       ############################################################
-      - name: Run Docker Deployment Script
+      - name: Run Phase1 Docker Deployment
         shell: cmd
         run: |
           Windows.Build.docker.bat ${{ github.event.inputs.environment }}
  
       ############################################################
-      # STEP 4: COMPLETED MESSAGE
+      # STEP 4 — SUCCESS MESSAGE
       ############################################################
       - name: Completed
-        run: echo "Phase1 deployment completed for environment: ${{ github.event.inputs.environment }}"
+        run: echo "Phase1 deployment completed for ${{ github.event.inputs.environment }}"
  
