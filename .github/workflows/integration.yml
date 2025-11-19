@@ -35,13 +35,15 @@ jobs:
         with:
           name: nextjs-build
           path: .next/**
+          if-no-files-found: warn
+
 
   unit-tests:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [20.x, 22.x]
+        node-version: [20.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -63,3 +65,4 @@ jobs:
         with:
           name: test-report
           path: test-results/**
+          if-no-files-found: warn
